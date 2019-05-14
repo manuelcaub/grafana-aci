@@ -36,6 +36,14 @@ resource "azurerm_container_group" "containergroup" {
       MYSQL_DATABASE      = "grafana"
       MYSQL_ROOT_PASSWORD = "P2__w0rd"
     }
+
+    volume {
+      name                  = "db"
+      mount_path            = "/var/lib/mysql"
+      storage_account_name  = "${azurerm_storage_account.pvstorage.name}"
+      storage_account_key   = "${azurerm_storage_account.pvstorage.primary_access_key}"
+      share_name            = "${azurerm_storage_share.mysql.name}"
+    }
   }
 
   tags = "${local.common_tags}"

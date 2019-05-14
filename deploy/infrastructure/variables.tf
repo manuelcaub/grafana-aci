@@ -26,3 +26,8 @@ variable "AZURE_REGION" {
   description = "The Azure region to create things in."
   default     = "West Europe"
 }
+
+variable "STORAGE_SHARE_QUOTA_MYSQL" {
+  description = "The storage file share quota for MySQL"
+  default     = 5
+}
