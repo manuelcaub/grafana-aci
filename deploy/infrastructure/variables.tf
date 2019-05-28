@@ -31,3 +31,8 @@ variable "STORAGE_SHARE_QUOTA_MYSQL" {
   description = "The storage file share quota for MySQL"
   default     = 5
 }
+
+variable "STORAGE_SHARE_QUOTA_PROVISIONING" {
+  description = "The storage file share quota for provisioning Grafana"
+  default     = 5
+}

@@ -8,7 +8,7 @@ resource "azurerm_container_group" "containergroup" {
 
   container {
     name   = "grafana"
-    image  = "grafana/grafana:5.4.3"
+    image  = "grafana/grafana:6.1.6"
     cpu    = "0.5"
     memory = "1"
 
@@ -18,11 +18,20 @@ resource "azurerm_container_group" "containergroup" {
     }
 
     environment_variables {
-      GF_DATABASE_TYPE      = "mysql"
-      GF_DATABASE_HOST      = "127.0.0.1:3306"
-      GF_DATABASE_NAME      = "grafana"
-      GF_DATABASE_USER      = "root"
-      GF_DATABASE_PASSWORD  = "P2__w0rd"
+      GF_DATABASE_TYPE     = "mysql"
+      GF_DATABASE_HOST     = "127.0.0.1:3306"
+      GF_DATABASE_NAME     = "grafana"
+      GF_DATABASE_USER     = "root"
+      GF_DATABASE_PASSWORD = "P2__w0rd"
+      GF_INSTALL_PLUGINS   = "grafana-azure-monitor-datasource"
+    }
+
+    volume {
+      name                 = "provisioning"
+      mount_path           = "/etc/grafana/provisioning"
+      storage_account_name = "${azurerm_storage_account.pvstorage.name}"
+      storage_account_key  = "${azurerm_storage_account.pvstorage.primary_access_key}"
+      share_name           = "${azurerm_storage_share.provisioning.name}"
     }
   }
 
@@ -38,11 +47,11 @@ resource "azurerm_container_group" "containergroup" {
     }
 
     volume {
-      name                  = "db"
-      mount_path            = "/var/lib/mysql"
-      storage_account_name  = "${azurerm_storage_account.pvstorage.name}"
-      storage_account_key   = "${azurerm_storage_account.pvstorage.primary_access_key}"
-      share_name            = "${azurerm_storage_share.mysql.name}"
+      name                 = "db"
+      mount_path           = "/var/lib/mysql"
+      storage_account_name = "${azurerm_storage_account.pvstorage.name}"
+      storage_account_key  = "${azurerm_storage_account.pvstorage.primary_access_key}"
+      share_name           = "${azurerm_storage_share.mysql.name}"
     }
   }
 

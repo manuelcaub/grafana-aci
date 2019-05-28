@@ -20,3 +20,10 @@ resource "azurerm_storage_share" "mysql" {
   storage_account_name = "${azurerm_storage_account.pvstorage.name}"
   quota                = "${var.STORAGE_SHARE_QUOTA_MYSQL}"
 }
+
+resource "azurerm_storage_share" "provisioning" {
+  name                 = "provisioningshare"
+  resource_group_name  = "${azurerm_resource_group.resourcegroup.name}"
+  storage_account_name = "${azurerm_storage_account.pvstorage.name}"
+  quota                = "${var.STORAGE_SHARE_QUOTA_PROVISIONING}"
+}
